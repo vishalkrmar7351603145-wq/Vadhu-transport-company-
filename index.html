@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Transport Management System</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:#075bc9;color:#111}
+.top{height:48px;background:#e8edf5;border-bottom:1px solid #9aa8bd;display:flex;align-items:center;gap:0;overflow-x:auto;white-space:nowrap}
+.brand{font-weight:700;padding:0 18px;color:#24344b}.menu{height:48px;padding:0 14px;border:0;background:transparent;font-size:14px;cursor:pointer}.menu:hover,.menu.active{background:#d2dbea}
+.wrap{padding:20px}.panel{display:none;background:#f7f9fc;border-radius:6px;box-shadow:0 4px 20px #003f8c55;padding:20px;max-width:1100px;margin:auto}
+.panel.show{display:block}.title{font-size:22px;font-weight:700;margin:0 0 18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card{background:white;border:1px solid #cbd4e2;border-radius:6px;padding:16px}.card b{display:block;margin-bottom:8px}
+label{display:block;font-size:13px;margin:8px 0 5px}input,select{width:100%;padding:9px;border:1px solid #aeb9ca;border-radius:4px}
+button.primary{margin-top:14px;background:#075bc9;color:#fff;border:0;padding:10px 16px;border-radius:4px;cursor:pointer}
+table{width:100%;border-collapse:collapse;background:#fff;margin-top:15px}th,td{border:1px solid #ccd5e3;padding:9px;text-align:left;font-size:13px}th{background:#e7ecf4}
+.note{color:#556274;font-size:13px;margin-top:8px}
+</style>
+</head>
+<body>
+<nav class="top">
+<div class="brand">Transport Application v6.1</div>
+<button class="menu active" data-page="home">Home</button>
+<button class="menu" data-page="touches">Touches</button>
+<button class="menu" data-page="ac">A/c Reports</button>
+<button class="menu" data-page="billy">Billy Reports</button>
+<button class="menu" data-page="booking">Booking Reports</button>
+<button class="menu" data-page="delivery">Delivery Reports</button>
+<button class="menu" data-page="gate">Gate Pass Reports</button>
+<button class="menu" data-page="web">Web Services</button>
+<button class="menu" data-page="maintenance">Maintenance</button>
+</nav>
+
+<div class="wrap">
+<section id="home" class="panel show">
+<h1 class="title">Transport Management System</h1>
+<div class="grid">
+<div class="card"><b>Booking</b><div class="note">Create and manage transport bookings.</div><button class="primary" onclick="openPage('booking')">Open Booking</button></div>
+<div class="card"><b>Delivery</b><div class="note">Track delivery records and status.</div><button class="primary" onclick="openPage('delivery')">Open Delivery</button></div>
+<div class="card"><b>Gate Pass</b><div class="note">Manage vehicle gate passes.</div><button class="primary" onclick="openPage('gate')">Open Gate Pass</button></div>
+<div class="card"><b>Reports</b><div class="note">View accounting and transport reports.</div><button class="primary" onclick="openPage('ac')">Open Reports</button></div>
+</div>
+</section>
+
+<section id="booking" class="panel"><h1 class="title">Booking Reports</h1><div class="grid">
+<div class="card"><label>Booking No.</label><input id="bookingNo" placeholder="Enter booking no."><label>Customer</label><input placeholder="Customer name"><label>Vehicle No.</label><input placeholder="Vehicle number"><button class="primary" onclick="addRow('bookingTable','bookingNo')">Save Booking</button></div>
+<div class="card"><b>Recent Bookings</b><table id="bookingTable"><tr><th>Booking No.</th><th>Status</th></tr></table></div>
+</div></section>
+
+<section id="delivery" class="panel"><h1 class="title">Delivery Reports</h1><div class="card"><label>Delivery No.</label><input id="deliveryNo" placeholder="Enter delivery no."><label>Status</label><select><option>Pending</option><option>In Transit</option><option>Delivered</option></select><button class="primary" onclick="addRow('deliveryTable','deliveryNo')">Save Delivery</button><table id="deliveryTable"><tr><th>Delivery No.</th><th>Status</th></tr></table></div></section>
+
+<section id="gate" class="panel"><h1 class="title">Gate Pass Reports</h1><div class="card"><label>Vehicle No.</label><input id="gateNo" placeholder="Vehicle number"><label>Driver</label><input placeholder="Driver name"><button class="primary" onclick="addRow('gateTable','gateNo')">Create Gate Pass</button><table id="gateTable"><tr><th>Vehicle No.</th><th>Gate Pass</th></tr></table></div></section>
+
+<section id="touches" class="panel"><h1 class="title">Touches</h1><div class="card">Transport touch-point / transaction management.</div></section>
+<section id="ac" class="panel"><h1 class="title">A/c Reports</h1><div class="card">Accounting reports and transaction summaries.</div></section>
+<section id="billy" class="panel"><h1 class="title">Billy Reports</h1><div class="card">Billing reports and outstanding records.</div></section>
+<section id="web" class="panel"><h1 class="title">Web Services</h1><div class="card">Web service integration settings.</div></section>
+<section id="maintenance" class="panel"><h1 class="title">Maintenance</h1><div class="card">Vehicle and system maintenance.</div></section>
+</div>
+
+<script>
+function openPage(id){
+ document.querySelectorAll('.panel').forEach(x=>x.classList.remove('show'));
+ document.getElementById(id).classList.add('show');
+ document.querySelectorAll('.menu').forEach(x=>x.classList.toggle('active',x.dataset.page===id));
+}
+document.querySelectorAll('.menu').forEach(b=>b.onclick=()=>openPage(b.dataset.page));
+function addRow(tableId,inputId){
+ const v=document.getElementById(inputId).value.trim();
+ if(!v){alert('Please enter the required number.');return}
+ const t=document.getElementById(tableId);
+ const r=t.insertRow(-1); r.insertCell(0).textContent=v; r.insertCell(1).textContent='Saved';
+ document.getElementById(inputId).value='';
+}
+</script>
+</body>
+</html>
